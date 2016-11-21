@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DF1870C1DE1ADB000D1B41E"
+               BuildableName = "LMCachedAudioPlayer.app"
+               BlueprintName = "LMCachedAudioPlayer"
+               ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -12,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DF187251DE1ADB000D1B41E"
+               BuildableName = "LMCachedAudioPlayerTests.xctest"
+               BlueprintName = "LMCachedAudioPlayerTests"
+               ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DF187301DE1ADB000D1B41E"
+               BuildableName = "LMCachedAudioPlayerUITests.xctest"
+               BlueprintName = "LMCachedAudioPlayerUITests"
+               ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8DF1870C1DE1ADB000D1B41E"
+            BuildableName = "LMCachedAudioPlayer.app"
+            BlueprintName = "LMCachedAudioPlayer"
+            ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8DF1870C1DE1ADB000D1B41E"
+            BuildableName = "LMCachedAudioPlayer.app"
+            BlueprintName = "LMCachedAudioPlayer"
+            ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8DF1870C1DE1ADB000D1B41E"
+            BuildableName = "LMCachedAudioPlayer.app"
+            BlueprintName = "LMCachedAudioPlayer"
+            ReferencedContainer = "container:LMCachedAudioPlayer.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

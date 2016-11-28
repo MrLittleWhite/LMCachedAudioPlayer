@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */; };
+		8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */; };
 		8DF187121DE1ADB000D1B41E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187111DE1ADB000D1B41E /* main.m */; };
 		8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187141DE1ADB000D1B41E /* AppDelegate.m */; };
 		8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187171DE1ADB000D1B41E /* ViewController.m */; };
@@ -35,6 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D9E541E1DE29544003E0B6F /* LMAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVAudioPlayer.h; sourceTree = "<group>"; };
+		8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVAudioPlayer.m; sourceTree = "<group>"; };
+		8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPDataSource.h; sourceTree = "<group>"; };
+		8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPDataSource.m; sourceTree = "<group>"; };
 		8DF1870D1DE1ADB000D1B41E /* LMCachedAudioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LMCachedAudioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF187111DE1ADB000D1B41E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8DF187131DE1ADB000D1B41E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -78,6 +84,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D9E541D1DE2950A003E0B6F /* LMAVAudioPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				8D9E541E1DE29544003E0B6F /* LMAVAudioPlayer.h */,
+				8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */,
+				8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */,
+				8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */,
+			);
+			path = LMAVAudioPlayer;
+			sourceTree = "<group>";
+		};
 		8DF187041DE1ADB000D1B41E = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +122,7 @@
 				8DF187141DE1ADB000D1B41E /* AppDelegate.m */,
 				8DF187161DE1ADB000D1B41E /* ViewController.h */,
 				8DF187171DE1ADB000D1B41E /* ViewController.m */,
+				8D9E541D1DE2950A003E0B6F /* LMAVAudioPlayer */,
 				8DF187191DE1ADB000D1B41E /* Main.storyboard */,
 				8DF1871C1DE1ADB000D1B41E /* Assets.xcassets */,
 				8DF1871E1DE1ADB000D1B41E /* LaunchScreen.storyboard */,
@@ -273,9 +291,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */,
 				8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */,
 				8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */,
 				8DF187121DE1ADB000D1B41E /* main.m in Sources */,
+				8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +527,7 @@
 				8DF1873C1DE1ADB000D1B41E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8DF1873D1DE1ADB000D1B41E /* Build configuration list for PBXNativeTarget "LMCachedAudioPlayerTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +536,7 @@
 				8DF1873F1DE1ADB000D1B41E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8DF187401DE1ADB000D1B41E /* Build configuration list for PBXNativeTarget "LMCachedAudioPlayerUITests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +545,7 @@
 				8DF187421DE1ADB000D1B41E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -11,9 +11,16 @@
 
 @interface LMAVHTTPDataSource : NSObject<AVAssetResourceLoaderDelegate>
 
-@property (nonatomic, assign) uint64_t offset;
+@property (nonatomic, copy)  NSString *originalScheme;
 
-- (void)startCache;
-- (void)pauseCache;
+//- (void)startCache;
+//- (void)pauseCache;
+
+@end
+
+
+@interface NSURL (LMAVAudioPlayer)
+
+- (NSURL *)customURLWithScheme:(NSString *)scheme;
 
 @end

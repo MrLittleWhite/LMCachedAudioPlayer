@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "LMAVAudioPlayer.h"
 
 @interface ViewController ()
+
+@property (nonatomic, strong) LMAVAudioPlayer *audioPlayer;
 
 @end
 
@@ -17,6 +20,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    LMAVAudioPlayerConfig *config = [[LMAVAudioPlayerConfig alloc] init];
+    config.urlStr = @"http://kting.info/asdb/fiction/chuanyue/yx/xhc9fsoy.mp3";
+    LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
+    self.audioPlayer = avPlayer;
+    [avPlayer play];
 }
 
 

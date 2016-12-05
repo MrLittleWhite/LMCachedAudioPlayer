@@ -50,16 +50,17 @@
     NSURL *url = [NSURL URLWithString:self.config.urlStr];
     if (self.config.isHTTPUrl) {
         self.dataSource = [[LMAVHTTPDataSource alloc] init];
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
-        AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
+        self.dataSource.originalScheme = url.scheme;
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[url customURLWithScheme:@"streaming"]
+                                                options:nil];
         [asset.resourceLoader setDelegate:self.dataSource
                                     queue:dispatch_get_main_queue()];
+        AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
         self.audioPlayer = [[AVPlayer alloc] initWithPlayerItem:playItem];
     } else {
         self.audioPlayer = [[AVPlayer alloc] initWithURL:url];
     }
 }
-
 
 #pragma mark - public method
 

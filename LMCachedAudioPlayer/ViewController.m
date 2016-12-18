@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) LMAVAudioPlayer *audioPlayer;
 
+@property (nonatomic, strong) NSTimer *updateTimer;
+
 @end
 
 @implementation ViewController
@@ -25,7 +27,39 @@
     config.urlStr = @"http://kting.info/asdb/fiction/chuanyue/yx/xhc9fsoy.mp3";
     LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
     self.audioPlayer = avPlayer;
-    [avPlayer play];
+    
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTimerHandler:) userInfo:nil repeats:YES];
+    
+    
+    [self.playButton setTitle:@"Pause" forState:UIControlStateSelected];
+    [self.playButton addTarget:self
+                        action:@selector(playOrPause:)
+              forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.seekSlider addTarget:self
+                        action:@selector(seekForSlider:)
+              forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)playOrPause:(UIButton *)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.playButton.backgroundColor = [UIColor yellowColor];
+        [self.audioPlayer play];
+    } else {
+        self.playButton.backgroundColor = [UIColor greenColor];
+        [self.audioPlayer pause];
+    }
+}
+
+- (void)seekForSlider:(UISlider *)slider {
+    
+}
+
+- (void)updateTimerHandler:(NSTimer *)timer {
+    self.durationLabel.text = [NSString stringWithFormat:@"Duration:%@",@(self.audioPlayer.duration)];
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.currentTime)];
+    self.loadedTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.loadedTime)];
 }
 
 

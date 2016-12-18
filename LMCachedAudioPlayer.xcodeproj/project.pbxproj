@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D49CC3F1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */; };
 		8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */; };
 		8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */; };
+		8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */; };
 		8DF187121DE1ADB000D1B41E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187111DE1ADB000D1B41E /* main.m */; };
 		8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187141DE1ADB000D1B41E /* AppDelegate.m */; };
 		8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187171DE1ADB000D1B41E /* ViewController.m */; };
@@ -37,10 +39,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D49CC3D1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+LMAVAudioPlayer.h"; sourceTree = "<group>"; };
+		8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+LMAVAudioPlayer.m"; sourceTree = "<group>"; };
 		8D9E541E1DE29544003E0B6F /* LMAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVAudioPlayer.h; sourceTree = "<group>"; };
 		8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVAudioPlayer.m; sourceTree = "<group>"; };
 		8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPDataSource.h; sourceTree = "<group>"; };
 		8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPDataSource.m; sourceTree = "<group>"; };
+		8DBD17961DF573EB002BBF58 /* LMAVHTTPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPTask.h; sourceTree = "<group>"; };
+		8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPTask.m; sourceTree = "<group>"; };
 		8DF1870D1DE1ADB000D1B41E /* LMCachedAudioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LMCachedAudioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF187111DE1ADB000D1B41E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8DF187131DE1ADB000D1B41E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -91,6 +97,10 @@
 				8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */,
 				8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */,
 				8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */,
+				8DBD17961DF573EB002BBF58 /* LMAVHTTPTask.h */,
+				8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */,
+				8D49CC3D1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.h */,
+				8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */,
 			);
 			path = LMAVAudioPlayer;
 			sourceTree = "<group>";
@@ -291,6 +301,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D49CC3F1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m in Sources */,
+				8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */,
 				8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */,
 				8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */,
 				8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */,

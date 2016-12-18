@@ -8,6 +8,7 @@
 
 #import "LMAVAudioPlayer.h"
 #import "LMAVHTTPDataSource.h"
+#import "NSURL+LMAVAudioPlayer.h"
 
 @interface LMAVAudioPlayerConfig ()
 
@@ -31,6 +32,12 @@
 @property (nonatomic, strong) LMAVHTTPDataSource *dataSource;
 
 @property (nonatomic, assign) BOOL isPaused;
+
+@property (nonatomic, assign, readwrite) LMAVAudioPlayerState state;
+@property (nonatomic, strong, readwrite) NSError *error;
+@property (nonatomic, assign, readwrite) NSTimeInterval duration;
+@property (nonatomic, assign, readwrite) NSTimeInterval currentTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval loadedTime;
 
 @end
 
@@ -79,6 +86,26 @@
 }
 - (void)PauseAudioAndCache {
     
+}
+
+#pragma mark - setter & getter
+
+- (NSTimeInterval)duration{
+    CMTime cmTime = self.audioPlayer.currentItem.duration;
+    return CMTimeGetSeconds(cmTime);
+}
+
+- (NSTimeInterval)currentTime{
+    CMTime cmTime = self.audioPlayer.currentItem.currentTime;
+    return CMTimeGetSeconds(cmTime);
+}
+
+- (NSTimeInterval)loadedTime{
+    CMTimeRange timeRange = self.audioPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
+    Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
+    Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
+    NSTimeInterval result = startSeconds + durationSeconds;
+    return result;
 }
 
 @end

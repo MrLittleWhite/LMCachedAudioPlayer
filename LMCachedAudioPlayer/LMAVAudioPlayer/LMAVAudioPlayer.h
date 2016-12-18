@@ -39,13 +39,13 @@ typedef NS_ENUM(NSUInteger, LMAVAudioPlayerState) {
 
 - (instancetype)initWithConfig:(LMAVAudioPlayerConfig *)config;
 
-@property (nonatomic, assign) LMAVAudioPlayerState state;
+@property (nonatomic, assign, readonly) LMAVAudioPlayerState state;
 
-@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong, readonly) NSError *error;
 
-@property (nonatomic, assign) NSTimeInterval duration;
-@property (nonatomic, assign) NSTimeInterval currentTime;
-@property (nonatomic, assign) NSTimeInterval loadedTime;
+@property (nonatomic, assign, readonly) NSTimeInterval duration;
+@property (nonatomic, assign, readonly) NSTimeInterval currentTime;
+@property (nonatomic, assign, readonly) NSTimeInterval loadedTime;
 
 - (void)play;
 

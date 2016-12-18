@@ -7,14 +7,16 @@
 //
 
 #import "LMAVHTTPDataSource.h"
+#import "LMAVHTTPTask.h"
 
-@interface LMAVHTTPDataSource ()<NSURLConnectionDataDelegate>
+@interface LMAVHTTPDataSource ()<LMAVHTTPTaskDelegate>
 
-@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableArray *pendingRequestQueue;
+@property (nonatomic, strong) NSMutableArray *finishedRequestQueue;
 
-@property (nonatomic, strong) NSMutableURLRequest *request;
+@property (nonatomic, strong) LMAVHTTPTask *httpTask;
 
-@property (nonatomic, strong) AVAssetResourceLoadingRequest *currentAssetRequest;
+//@property (nonatomic, strong) AVAssetResourceLoadingRequest *currentAssetRequest;
 
 @property (nonatomic, assign) long long feedDataOffset;
 
@@ -24,6 +26,8 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        self.pendingRequestQueue = [NSMutableArray array];
+        self.finishedRequestQueue = [NSMutableArray array];
     }
     return self;
 }
@@ -34,71 +38,50 @@
 }
 
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
-    if ([self.currentAssetRequest isEqual:loadingRequest]) {
-        self.currentAssetRequest = nil;
-    }
+    [self.pendingRequestQueue removeObject:loadingRequest];
+    [self.finishedRequestQueue removeObject:loadingRequest];
 }
 
 #pragma mark - process LoadingRequest
 
 - (void)processLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
-    if (!loadingRequest) return;
-    if (self.connection) return;
-    
-    self.currentAssetRequest = loadingRequest;
-    self.request = [[NSMutableURLRequest alloc] initWithURL:[loadingRequest.request.URL customURLWithScheme:self.originalScheme]];
-
-    long long requestedOffset = loadingRequest.dataRequest.requestedOffset;
-//    long long currentOffset = loadingRequest.dataRequest.currentOffset;
-    long long requestedLength = loadingRequest.dataRequest.requestedLength;
-    long long requestEnd = requestedOffset+requestedLength-1;
-    
-    if (requestedOffset > 0) {
-        [self.request addValue:[NSString stringWithFormat:@"bytes=%lld-%lld",requestedOffset,requestEnd] forHTTPHeaderField:@"Range"];
+    if (![self.pendingRequestQueue containsObject:loadingRequest]) {
+        [self.pendingRequestQueue addObject:loadingRequest];
+        self.httpTask = [[LMAVHTTPTask alloc] initWithLoadingRequest:loadingRequest];
+        self.httpTask.oringalScheme = self.originalScheme;
+        self.httpTask.delegate = self;
+        [self.httpTask start];
+    } else {
+        NSLog(@"xxx");
     }
-    
-    [self.connection cancel];
-    self.connection = nil;
-    self.connection = [[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:NO];
-    [self.connection setDelegateQueue:[NSOperationQueue mainQueue]];
-    [self.connection start];
-
+//    self.currentAssetRequest = loadingRequest;
 }
 
-#pragma mark - connection delegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [self.currentAssetRequest.dataRequest respondWithData:data];
-    self.feedDataOffset += data.length;
-    if (self.feedDataOffset>=self.currentAssetRequest.dataRequest.requestedLength) {
-        self.feedDataOffset = 0;
-        [self.connection cancel];
-        [self.currentAssetRequest finishLoading];
-        self.currentAssetRequest = nil;
+#pragma mark - task delegate
+- (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didReceiveResponse:(NSURLResponse *)response forLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
+    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        loadingRequest.contentInformationRequest.contentType = [httpResponse.allHeaderFields objectForKey:@"Content-Type"];
+        NSString * contentRange = [[httpResponse allHeaderFields] objectForKey:@"Content-Range"];
+        NSString * totalLength = [[contentRange componentsSeparatedByString:@"/"] lastObject];
+        loadingRequest.contentInformationRequest.contentLength = totalLength.longLongValue;
+    }
+    if (!loadingRequest.contentInformationRequest.contentType.length) {
+        loadingRequest.contentInformationRequest.contentType = @"audio/mpeg";
+    }
+    if (loadingRequest.contentInformationRequest.contentLength <= 0) {
+        loadingRequest.contentInformationRequest.contentLength = response.expectedContentLength;
     }
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-
+- (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didReceiveData:(NSData *)data forLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+    [loadingRequest.dataRequest respondWithData:data];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    
-}
-
-@end
-
-@implementation NSURL (LMAVAudioPlayer)
-
-- (NSURL *)customURLWithScheme:(NSString *)scheme {
-    NSURLComponents * components = [[NSURLComponents alloc] initWithURL:self
-                                                resolvingAgainstBaseURL:NO];
-    components.scheme = scheme;
-    return [components URL];
+- (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didFinishTaskForLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+    [loadingRequest finishLoading];
+    [avHTTPTask stop];
+    [self.pendingRequestQueue removeObject:loadingRequest];
 }
 
 @end

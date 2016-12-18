@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,15 +47,6 @@
                                     <constraint firstAttribute="width" constant="65" id="tZS-FK-Wxe"/>
                                 </constraints>
                                 <state key="normal" title="Play"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wmv-s6-n8h">
-                                <rect key="frame" x="280" y="453" width="65" height="35"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="FMj-x7-5Pq"/>
-                                    <constraint firstAttribute="width" constant="65" id="QgB-Ks-00e"/>
-                                </constraints>
-                                <state key="normal" title="Pause"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igt-ml-V61">
                                 <rect key="frame" x="280" y="504" width="65" height="35"/>
@@ -119,9 +110,9 @@
                             <constraint firstItem="lM7-2c-ITu" firstAttribute="leading" secondItem="oTb-mS-dsX" secondAttribute="trailing" constant="45" id="SRe-Ie-7rC"/>
                             <constraint firstAttribute="trailing" secondItem="MaZ-Hb-ow9" secondAttribute="trailing" constant="30" id="TTf-IU-Oev"/>
                             <constraint firstAttribute="bottom" secondItem="MaZ-Hb-ow9" secondAttribute="bottom" constant="45" id="U1I-br-ljB"/>
+                            <constraint firstItem="igt-ml-V61" firstAttribute="trailing" secondItem="d8l-BD-HW1" secondAttribute="trailing" id="VX3-dX-Xtx"/>
                             <constraint firstItem="MaZ-Hb-ow9" firstAttribute="top" secondItem="5dC-65-8m3" secondAttribute="bottom" constant="60" id="W9e-6C-rQ0"/>
                             <constraint firstItem="lM7-2c-ITu" firstAttribute="centerY" secondItem="oTb-mS-dsX" secondAttribute="centerY" id="WEq-hg-4OT"/>
-                            <constraint firstItem="Wmv-s6-n8h" firstAttribute="trailing" secondItem="d8l-BD-HW1" secondAttribute="trailing" id="ZHZ-yy-GQv"/>
                             <constraint firstAttribute="trailing" secondItem="E3f-oH-NuA" secondAttribute="trailing" constant="30" id="ZWw-JF-bya"/>
                             <constraint firstItem="MaZ-Hb-ow9" firstAttribute="top" secondItem="spo-k8-f5w" secondAttribute="bottom" constant="16" id="Zj4-NZ-jZu"/>
                             <constraint firstItem="igt-ml-V61" firstAttribute="trailing" secondItem="MaZ-Hb-ow9" secondAttribute="trailing" id="agQ-3F-0Ao"/>
@@ -130,15 +121,23 @@
                             <constraint firstItem="oTb-mS-dsX" firstAttribute="centerY" secondItem="sqi-Fj-a2U" secondAttribute="centerY" id="hBL-mC-ZfZ"/>
                             <constraint firstItem="MaZ-Hb-ow9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="30" id="i22-ZE-LVq"/>
                             <constraint firstItem="E3f-oH-NuA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="30" id="kYC-LJ-rew"/>
-                            <constraint firstItem="qEM-6W-Qft" firstAttribute="centerY" secondItem="Wmv-s6-n8h" secondAttribute="centerY" id="kp3-Og-6dk"/>
                             <constraint firstItem="xvU-PJ-IP4" firstAttribute="centerY" secondItem="d8l-BD-HW1" secondAttribute="centerY" id="lcZ-bc-aOS"/>
                             <constraint firstItem="S09-0r-EYt" firstAttribute="trailing" secondItem="E3f-oH-NuA" secondAttribute="trailing" id="o9B-L8-F7e"/>
                             <constraint firstItem="5dC-65-8m3" firstAttribute="leading" secondItem="MaZ-Hb-ow9" secondAttribute="leading" id="t8x-c0-zDP"/>
                             <constraint firstItem="5dC-65-8m3" firstAttribute="top" secondItem="qEM-6W-Qft" secondAttribute="bottom" constant="30" id="tjE-0g-hoo"/>
-                            <constraint firstItem="igt-ml-V61" firstAttribute="trailing" secondItem="Wmv-s6-n8h" secondAttribute="trailing" id="wLf-BK-s5D"/>
                             <constraint firstItem="5dC-65-8m3" firstAttribute="centerY" secondItem="igt-ml-V61" secondAttribute="centerY" id="wqU-li-YWR"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="currentTimeLabel" destination="qEM-6W-Qft" id="5qz-Mk-CbJ"/>
+                        <outlet property="durationLabel" destination="xvU-PJ-IP4" id="vWm-fu-h6r"/>
+                        <outlet property="loadedTimeLabel" destination="5dC-65-8m3" id="WMy-Hj-hC1"/>
+                        <outlet property="playButton" destination="d8l-BD-HW1" id="BxP-AU-hQr"/>
+                        <outlet property="seekSlider" destination="MaZ-Hb-ow9" id="IMq-Zz-wox"/>
+                        <outlet property="seekTimeLabel" destination="spo-k8-f5w" id="VJA-WK-ofq"/>
+                        <outlet property="stopButton" destination="igt-ml-V61" id="FeP-Sd-qgc"/>
+                        <outlet property="switchButton" destination="oTb-mS-dsX" id="6S0-6b-l0d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

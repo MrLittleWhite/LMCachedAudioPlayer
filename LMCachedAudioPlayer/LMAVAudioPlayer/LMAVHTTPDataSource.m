@@ -32,6 +32,17 @@
     return self;
 }
 
+#pragma mark - public LoadingRequest
+
+- (void)startCache {
+    [self.httpTask start];
+}
+
+- (void)pauseCache {
+    [self.httpTask pause];
+}
+
+
 - (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest{
     [self processLoadingRequest:loadingRequest];
     return YES;

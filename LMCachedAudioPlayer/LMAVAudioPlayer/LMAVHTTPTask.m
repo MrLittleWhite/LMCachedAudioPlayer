@@ -70,20 +70,26 @@
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{
-    if (error) {
-        NSLog(@"%@",error);
-    }
+//    if (error) {
+//        NSLog(@"%@",error);
+//    }
     if ([self.delegate respondsToSelector:@selector(lmAVHTTPTask:didFinishTaskForLoadingRequest:)]) {
         [self.delegate lmAVHTTPTask:self didFinishTaskForLoadingRequest:self.loadingRequest];
     }
 }
 
 - (void)start {
-    [self.dataTask resume];
+    if (self.dataTask.state == NSURLSessionTaskStateSuspended) {
+        [self.dataTask resume];
+    }
+}
+
+- (void)pause {
+    [self.dataTask suspend];
 }
 
 - (void)stop {
-    [self.dataTask suspend];
+    [self.dataTask cancel];
 }
 
 @end

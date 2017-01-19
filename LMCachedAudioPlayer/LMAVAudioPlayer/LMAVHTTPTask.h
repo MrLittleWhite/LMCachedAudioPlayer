@@ -19,9 +19,11 @@
 
 @property (nonatomic, weak) id<LMAVHTTPTaskDelegate> delegate;
 
-@property (nonatomic, strong, readonly) AVAssetResourceLoadingRequest *loadingRequest;;
+@property (nonatomic, strong, readonly) AVAssetResourceLoadingRequest *loadingRequest;
 
 - (void)start;
+
+- (void)pause;
 
 - (void)stop;
 

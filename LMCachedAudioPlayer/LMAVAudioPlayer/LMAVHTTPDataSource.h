@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy)  NSString *originalScheme;
 
-//- (void)startCache;
-//- (void)pauseCache;
+- (void)startCache;
+- (void)pauseCache;
 
 @end

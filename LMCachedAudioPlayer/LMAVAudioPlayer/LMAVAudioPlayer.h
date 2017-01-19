@@ -47,11 +47,13 @@ typedef NS_ENUM(NSUInteger, LMAVAudioPlayerState) {
 @property (nonatomic, assign, readonly) NSTimeInterval currentTime;
 @property (nonatomic, assign, readonly) NSTimeInterval loadedTime;
 
+- (void)preload;
+
 - (void)play;
 
 - (void)playFromOffsetTime:(NSTimeInterval)offsetTime;
 
 - (void)pause;
-- (void)PauseAudioAndCache;
+- (void)pauseAudioAndLoad;
 
 @end

@@ -36,6 +36,7 @@
                         action:@selector(playOrPause:)
               forControlEvents:UIControlEventTouchUpInside];
     
+    self.seekSlider.continuous = NO;
     [self.seekSlider addTarget:self
                         action:@selector(seekForSlider:)
               forControlEvents:UIControlEventValueChanged];
@@ -48,18 +49,21 @@
         [self.audioPlayer play];
     } else {
         self.playButton.backgroundColor = [UIColor greenColor];
-        [self.audioPlayer pause];
+//        [self.audioPlayer pause];
+        [self.audioPlayer pauseAudioAndLoad];
     }
 }
 
 - (void)seekForSlider:(UISlider *)slider {
-    
+    NSTimeInterval seekTime = self.audioPlayer.duration*slider.value;
+    [self.audioPlayer playFromOffsetTime:seekTime];
+    self.seekTimeLabel.text = [NSString stringWithFormat:@"SeekTime:%@",@(seekTime)];
 }
 
 - (void)updateTimerHandler:(NSTimer *)timer {
     self.durationLabel.text = [NSString stringWithFormat:@"Duration:%@",@(self.audioPlayer.duration)];
     self.currentTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.currentTime)];
-    self.loadedTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.loadedTime)];
+    self.loadedTimeLabel.text = [NSString stringWithFormat:@"LoadedTime:%@",@(self.audioPlayer.loadedTime)];
 }
 
 

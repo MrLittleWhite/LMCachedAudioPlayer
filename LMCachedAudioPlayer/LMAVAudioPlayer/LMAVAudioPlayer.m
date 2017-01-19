@@ -47,7 +47,7 @@
     if (self = [super init]) {
         self.config = config;
         NSAssert(self.config.urlStr.length,@"");
-        [self initPlayer];
+//        [self initPlayer];
     }
     return self;
 }
@@ -71,7 +71,15 @@
 
 #pragma mark - public method
 
+- (void)preload{
+    if (!self.audioPlayer) {
+        [self initPlayer];
+    }
+    [self.dataSource startCache];
+}
+
 - (void)play {
+    [self preload];
     [self.audioPlayer play];
     self.isPaused = NO;
 }
@@ -84,8 +92,10 @@
     [self.audioPlayer pause];
     self.isPaused = YES;
 }
-- (void)PauseAudioAndCache {
-    
+- (void)pauseAudioAndLoad {
+    [self.audioPlayer pause];
+    self.isPaused = YES;
+    [self.dataSource pauseCache];
 }
 
 #pragma mark - setter & getter

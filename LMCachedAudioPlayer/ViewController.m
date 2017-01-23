@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "LMAVAudioPlayer.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()
 
@@ -46,6 +47,8 @@
     btn.selected = !btn.selected;
     if (btn.selected) {
         self.playButton.backgroundColor = [UIColor yellowColor];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:NULL];
+        [[AVAudioSession sharedInstance] setActive:YES error:NULL];
         [self.audioPlayer play];
     } else {
         self.playButton.backgroundColor = [UIColor greenColor];

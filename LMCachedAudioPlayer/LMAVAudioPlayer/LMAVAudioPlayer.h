@@ -30,6 +30,7 @@
 typedef NS_ENUM(NSUInteger, LMAVAudioPlayerState) {
     LMAVAudioPlayerStatePause,
     LMAVAudioPlayerStatePlay,
+    LMAVAudioPlayerStateLoading,
     LMAVAudioPlayerStateEnd,
     LMAVAudioPlayerStateError
 };

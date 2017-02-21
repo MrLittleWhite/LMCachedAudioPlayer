@@ -29,6 +29,11 @@
     LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
     self.audioPlayer = avPlayer;
     
+    [self.audioPlayer addObserver:self
+                       forKeyPath:@"state"
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
+    
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTimerHandler:) userInfo:nil repeats:YES];
     
     
@@ -57,6 +62,38 @@
     }
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"state"]) {
+        LMAVAudioPlayerState state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        switch (state) {
+            case LMAVAudioPlayerStatePause:
+                self.stateLabel.text = @"暂停";
+                self.stateLabel.textColor = [UIColor blackColor];
+                break;
+            case LMAVAudioPlayerStatePlay:
+                self.stateLabel.text = @"播放";
+                self.stateLabel.textColor = [UIColor greenColor];
+                break;
+            case LMAVAudioPlayerStateLoading:
+                self.stateLabel.text = @"加载";
+                self.stateLabel.textColor = [UIColor yellowColor];
+                break;
+            case LMAVAudioPlayerStateEnd:
+                self.stateLabel.text = @"完毕";
+                self.stateLabel.textColor = [UIColor cyanColor];
+                self.playButton.selected = NO;
+                break;
+            case LMAVAudioPlayerStateError:
+                self.stateLabel.text = @"失败";
+                self.stateLabel.textColor = [UIColor redColor];
+                self.playButton.selected = NO;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 - (void)seekForSlider:(UISlider *)slider {
     NSTimeInterval seekTime = self.audioPlayer.duration*slider.value;
     [self.audioPlayer playFromOffsetTime:seekTime];
@@ -69,6 +106,10 @@
     self.loadedTimeLabel.text = [NSString stringWithFormat:@"LoadedTime:%@",@(self.audioPlayer.loadedTime)];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    [self.audioPlayer removeObserver:self forKeyPath:@"state"];
+//    self.audioPlayer = nil;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

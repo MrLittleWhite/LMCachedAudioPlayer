@@ -31,6 +31,12 @@
     return self;
 }
 
+- (void)dealloc{
+#if DEBUG
+    NSLog(@"HttpTask dealloc");
+#endif
+}
+
 #pragma mark - setter & getter
 - (NSURLSessionDataTask *)dataTask {
     if (!_dataTask) {
@@ -43,10 +49,16 @@
         NSURL *url = [self.loadingRequest.request.URL customURLWithScheme:self.oringalScheme];
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
         [request addValue:[NSString stringWithFormat:@"bytes=%lld-%lld", requestedOffset+self.feededDataOffset, requestEnd] forHTTPHeaderField:@"Range"];
-        self.taskSesstion = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
         _dataTask = [self.taskSesstion dataTaskWithRequest:request];
     }
     return _dataTask;
+}
+
+- (NSURLSession *)taskSesstion{
+    if (!_taskSesstion) {
+        _taskSesstion = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    }
+    return _taskSesstion;
 }
 
 
@@ -70,11 +82,9 @@
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{
-//    if (error) {
-//        NSLog(@"%@",error);
-//    }
-    if ([self.delegate respondsToSelector:@selector(lmAVHTTPTask:didFinishTaskForLoadingRequest:)]) {
-        [self.delegate lmAVHTTPTask:self didFinishTaskForLoadingRequest:self.loadingRequest];
+    if ([self.delegate respondsToSelector:@selector(lmAVHTTPTask:didFinishTaskForLoadingRequest:error:)]) {
+        [self.delegate lmAVHTTPTask:self didFinishTaskForLoadingRequest:self.loadingRequest
+                              error:error];
     }
 }
 
@@ -90,6 +100,7 @@
 
 - (void)stop {
     [self.dataTask cancel];
+    [self.taskSesstion invalidateAndCancel];
 }
 
 @end

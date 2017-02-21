@@ -9,6 +9,7 @@
 #import "LMAVAudioPlayer.h"
 #import "LMAVHTTPDataSource.h"
 #import "NSURL+LMAVAudioPlayer.h"
+#import "NSTimer+EOCBlocksSupport.h"
 
 @interface LMAVAudioPlayerConfig ()
 
@@ -31,7 +32,9 @@
 @property (nonatomic, strong) LMAVAudioPlayerConfig *config;
 @property (nonatomic, strong) LMAVHTTPDataSource *dataSource;
 
-@property (nonatomic, assign) BOOL isPaused;
+@property (nonatomic, strong) NSTimer *tryPlayTimer;
+
+//@property (nonatomic, assign) BOOL isPaused;
 
 @property (nonatomic, assign, readwrite) LMAVAudioPlayerState state;
 @property (nonatomic, strong, readwrite) NSError *error;
@@ -39,12 +42,19 @@
 @property (nonatomic, assign, readwrite) NSTimeInterval currentTime;
 @property (nonatomic, assign, readwrite) NSTimeInterval loadedTime;
 
+@property (nonatomic, assign) BOOL isAddObserve;
+
 @end
 
 @implementation LMAVAudioPlayer
 
 - (void)dealloc{
     [self removeObserverForPlayItem:self.audioPlayer.currentItem];
+    [self stopTryPlay];
+    
+#if DEBUG
+    NSLog(@"LMAVAudioPlayer dealloc");
+#endif
 }
 
 - (instancetype)initWithConfig:(LMAVAudioPlayerConfig *)config{
@@ -84,22 +94,38 @@
 }
 
 - (void)play {
-    [self preload];
-    [self.audioPlayer play];
     if (self.state != LMAVAudioPlayerStatePlay) {
-        self.state = LMAVAudioPlayerStatePause;
+        self.error = nil;
+        [self preload];
+        //    self.isPaused = NO;
+        if ([self canPlayWithoutLoading]) {
+            if (self.audioPlayer.rate == 0.0) {
+                [self.audioPlayer play];
+            } else {
+                [self.audioPlayer pause];
+                [self.audioPlayer play];
+            }
+            self.state = LMAVAudioPlayerStatePlay;
+        } else {
+            self.state = LMAVAudioPlayerStateLoading;
+        }
     }
-    self.isPaused = NO;
 }
 
 - (void)playFromOffsetTime:(NSTimeInterval)offsetTime {
-    [self.audioPlayer seekToTime:CMTimeMake(offsetTime, 1)];
+    __weak typeof (self) weakSelf = self;
+    self.state = LMAVAudioPlayerStateLoading;
+    [self.audioPlayer seekToTime:CMTimeMake(offsetTime, 1) completionHandler:^(BOOL finished) {
+        if (finished) {
+            weakSelf.state = LMAVAudioPlayerStatePlay;
+        }
+    }];
 }
 
 - (void)pause {
-    [self.audioPlayer pause];
-    self.isPaused = YES;
     self.state = LMAVAudioPlayerStatePause;
+    [self.audioPlayer pause];
+//    self.isPaused = YES;
 }
 - (void)pauseAudioAndLoad {
     [self pause];
@@ -107,6 +133,7 @@
 }
 
 - (void)addObserverForPlayItem:(AVPlayerItem *)playerItem {
+    self.isAddObserve = YES;
     //监控状态属性，注意AVPlayer也有一个status属性，通过监控它的status也可以获得播放状态
     [playerItem addObserver:self
                  forKeyPath:@"status"
@@ -123,13 +150,13 @@
 //                    options:NSKeyValueObservingOptionNew
 //                    context:nil];
     
-//    //缓存可以播放的时候调用
-//    [playerItem addObserver:self
-//                 forKeyPath:@"playbackLikelyToKeepUp"
-//                    options:NSKeyValueObservingOptionNew
-//                    context:nil];
-    
+    //缓存可以播放的时候调用
     [playerItem addObserver:self
+                 forKeyPath:@"playbackLikelyToKeepUp"
+                    options:NSKeyValueObservingOptionNew
+                    context:nil];
+    
+    [self.audioPlayer addObserver:self
                  forKeyPath:@"rate"
                     options:NSKeyValueObservingOptionNew
                     context:nil];
@@ -139,31 +166,31 @@
 }
 
 - (void)removeObserverForPlayItem:(AVPlayerItem *)playerItem {
-    [self.audioPlayer removeObserver:self forKeyPath:@"rate"];
-    [playerItem removeObserver:self forKeyPath:@"status"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    [playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-//    [playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-    
+    if (self.isAddObserve) {
+        [playerItem removeObserver:self forKeyPath:@"status"];
+        [playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        [self.audioPlayer removeObserver:self forKeyPath:@"rate"];
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        //    [playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        //    [playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    }
 }
 
 - (void)handlePlayItemDidPlayToEnd:(NSNotification *)noti{
-    
-    NSLog(@"%@",noti.userInfo);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.audioPlayer seekToTime:CMTimeMake(0, 1)];
-        [self.audioPlayer play];
-    });
+    if (self.dataSource.isFinishLoad) {
+        self.state = LMAVAudioPlayerStateEnd;
+    } else if (self.state == LMAVAudioPlayerStatePlay){
+        self.state = LMAVAudioPlayerStateLoading;
+    }
 }
 
 - (void)handlePlayItemFailPlayToEnd:(NSNotification *)noti{
-    
-    NSLog(@"%@",noti.userInfo);
+    self.error = self.audioPlayer.currentItem.error;
+    self.state = LMAVAudioPlayerStateError;
 }
 
 - (void)handlePlayItemPlayBackStalled:(NSNotification *)noti{
-    
-    NSLog(@"%@",noti.userInfo);
+    self.state = LMAVAudioPlayerStateLoading;
 }
 
 
@@ -171,23 +198,29 @@
     if ([keyPath isEqualToString:@"status"]) {
         switch (self.audioPlayer.status) {
             case AVPlayerStatusUnknown:
-                NSLog(@"AVPlayerStatusUnknown");
                 break;
             case AVPlayerStatusReadyToPlay:
-                NSLog(@"AVPlayerStatusReadyToPlay");
+                if (self.state == LMAVAudioPlayerStateLoading) {
+//                    self.state = LMAVAudioPlayerStatePlay;
+                }
                 break;
             case AVPlayerStatusFailed:
-                NSLog(@"AVPlayerStatusFailed");
+                self.error = self.audioPlayer.error;
+                self.state = LMAVAudioPlayerStateError;
                 break;
             default:
                 break;
         }
-    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-//        NSLog(@"loadedTimeRanges :%@",self.audioPlayer.currentItem.loadedTimeRanges);
-    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
-        NSLog(@"playbackBufferEmpty :%@",@(self.audioPlayer.currentItem.playbackBufferEmpty));
+    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]){
+        BOOL isLikelyKeepUp = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+        if (isLikelyKeepUp && self.state == LMAVAudioPlayerStateLoading) {
+//            [self.audioPlayer play];
+//            self.state = LMAVAudioPlayerStatePlay;
+        }
     } else if ([keyPath isEqualToString:@"rate"]) {
         float rate = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+        
+//        NSLog(@"rate: %@",@(rate));
         if (rate == 0.0) {
             if (self.state == LMAVAudioPlayerStatePlay) {
                 self.state = LMAVAudioPlayerStateLoading;
@@ -197,6 +230,11 @@
                 self.state = LMAVAudioPlayerStatePlay;
             }
         }
+//        if (rate == 0.0) {
+//            if (self.state == LMAVAudioPlayerStatePlay) {
+//                self.state = LMAVAudioPlayerStateLoading;
+//            }
+//        }
     }
 }
 
@@ -207,24 +245,35 @@
 }
 
 - (BOOL)canPlayWithoutLoading{
-    return self.audioPlayer.status == AVPlayerStatusReadyToPlay
-           && self.audioPlayer.currentItem.playbackLikelyToKeepUp;
+    return self.audioPlayer.status == AVPlayerStatusReadyToPlay &&
+           ((self.loadedTime - self.currentTime) >= 6
+           || self.dataSource.isFinishLoad);
 }
 
 - (void)setState:(LMAVAudioPlayerState)state{
     if (_state != state) {
         _state = state;
+        if (state == LMAVAudioPlayerStateLoading) {
+            [self startTryPlayIfBufferLongEnough];
+        } else {
+            [self stopTryPlay];
+        }
+        if (state == LMAVAudioPlayerStatePlay) {
+            self.audioPlayer.muted = NO;
+        }
     }
 }
 
 - (NSTimeInterval)duration{
     CMTime cmTime = self.audioPlayer.currentItem.duration;
-    return CMTimeGetSeconds(cmTime);
+    NSTimeInterval dura = CMTimeGetSeconds(cmTime);
+    return isnan(dura)?0:dura;
 }
 
 - (NSTimeInterval)currentTime{
     CMTime cmTime = self.audioPlayer.currentItem.currentTime;
-    return CMTimeGetSeconds(cmTime);
+    NSTimeInterval curr = CMTimeGetSeconds(cmTime);
+    return isnan(curr)?0:curr;
 }
 
 - (NSTimeInterval)loadedTime{
@@ -232,7 +281,29 @@
     Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
     Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
     NSTimeInterval result = startSeconds + durationSeconds;
-    return result;
+    return isnan(result)?0:result;
+}
+
+#pragma mark - private space
+
+- (void)startTryPlayIfBufferLongEnough{
+    if (self.tryPlayTimer) return;
+    
+    __weak typeof (self) weakSelf = self;
+    self.tryPlayTimer = [NSTimer eoc_scheduledTimerWithTimeInterval:3 block:^{
+        if (weakSelf.state == LMAVAudioPlayerStateLoading) {
+            if ([weakSelf canPlayWithoutLoading]) {
+                [weakSelf play];
+            }
+        } else {
+            [weakSelf stopTryPlay];
+        }
+    } repeats:YES];
+}
+
+- (void)stopTryPlay{
+    [self.tryPlayTimer invalidate];
+    self.tryPlayTimer = nil;
 }
 
 @end

@@ -12,6 +12,10 @@
 
 @property (nonatomic, copy)  NSString *originalScheme;
 
+@property (nonatomic, assign, readonly) BOOL isFinishLoad;
+
+@property (nonatomic, strong, readonly) NSError *error;
+
 - (void)startCache;
 - (void)pauseCache;
 

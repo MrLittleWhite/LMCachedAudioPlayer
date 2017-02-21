@@ -10,6 +10,8 @@
 		8D49CC3F1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */; };
 		8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */; };
 		8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */; };
+		8DB112141E472062006C16C4 /* NSTimer+EOCBlocksSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */; };
+		8DB112191E486292006C16C4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB112181E486292006C16C4 /* Reachability.m */; };
 		8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */; };
 		8DF187121DE1ADB000D1B41E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187111DE1ADB000D1B41E /* main.m */; };
 		8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187141DE1ADB000D1B41E /* AppDelegate.m */; };
@@ -45,6 +47,10 @@
 		8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVAudioPlayer.m; sourceTree = "<group>"; };
 		8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPDataSource.h; sourceTree = "<group>"; };
 		8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPDataSource.m; sourceTree = "<group>"; };
+		8DB112121E472062006C16C4 /* NSTimer+EOCBlocksSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+EOCBlocksSupport.h"; sourceTree = "<group>"; };
+		8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+EOCBlocksSupport.m"; sourceTree = "<group>"; };
+		8DB112171E486292006C16C4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		8DB112181E486292006C16C4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		8DBD17961DF573EB002BBF58 /* LMAVHTTPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPTask.h; sourceTree = "<group>"; };
 		8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPTask.m; sourceTree = "<group>"; };
 		8DF1870D1DE1ADB000D1B41E /* LMCachedAudioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LMCachedAudioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +107,10 @@
 				8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */,
 				8D49CC3D1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.h */,
 				8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */,
+				8DB112121E472062006C16C4 /* NSTimer+EOCBlocksSupport.h */,
+				8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */,
+				8DB112171E486292006C16C4 /* Reachability.h */,
+				8DB112181E486292006C16C4 /* Reachability.m */,
 			);
 			path = LMAVAudioPlayer;
 			sourceTree = "<group>";
@@ -306,8 +316,10 @@
 				8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */,
 				8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */,
 				8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */,
+				8DB112141E472062006C16C4 /* NSTimer+EOCBlocksSupport.m in Sources */,
 				8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */,
 				8DF187121DE1ADB000D1B41E /* main.m in Sources */,
+				8DB112191E486292006C16C4 /* Reachability.m in Sources */,
 				8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

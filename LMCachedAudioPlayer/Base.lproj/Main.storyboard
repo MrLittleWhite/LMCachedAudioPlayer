@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -96,16 +96,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSL-91-JJx">
+                                <rect key="frame" x="166.5" y="323.5" width="42" height="20.5"/>
+                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oTb-mS-dsX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2KL-Q4-M9n"/>
                             <constraint firstItem="5dC-65-8m3" firstAttribute="leading" secondItem="qEM-6W-Qft" secondAttribute="leading" id="2Uo-zm-7NH"/>
+                            <constraint firstItem="fSL-91-JJx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="6GT-91-7Pv"/>
                             <constraint firstItem="E3f-oH-NuA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="30" id="91X-q5-5Hd"/>
                             <constraint firstItem="oTb-mS-dsX" firstAttribute="leading" secondItem="sqi-Fj-a2U" secondAttribute="trailing" constant="45" id="BT6-01-L4E"/>
                             <constraint firstItem="oTb-mS-dsX" firstAttribute="top" secondItem="E3f-oH-NuA" secondAttribute="bottom" constant="118" id="Blh-6w-Oox"/>
                             <constraint firstItem="qEM-6W-Qft" firstAttribute="leading" secondItem="xvU-PJ-IP4" secondAttribute="leading" id="Dv2-1j-U5a"/>
                             <constraint firstItem="MaZ-Hb-ow9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ezg-0h-QXb"/>
+                            <constraint firstItem="fSL-91-JJx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="G71-Y3-70u"/>
                             <constraint firstItem="qEM-6W-Qft" firstAttribute="top" secondItem="xvU-PJ-IP4" secondAttribute="bottom" constant="30" id="Gna-3r-yV9"/>
                             <constraint firstItem="lM7-2c-ITu" firstAttribute="leading" secondItem="oTb-mS-dsX" secondAttribute="trailing" constant="45" id="SRe-Ie-7rC"/>
                             <constraint firstAttribute="trailing" secondItem="MaZ-Hb-ow9" secondAttribute="trailing" constant="30" id="TTf-IU-Oev"/>
@@ -135,6 +144,7 @@
                         <outlet property="playButton" destination="d8l-BD-HW1" id="BxP-AU-hQr"/>
                         <outlet property="seekSlider" destination="MaZ-Hb-ow9" id="IMq-Zz-wox"/>
                         <outlet property="seekTimeLabel" destination="spo-k8-f5w" id="VJA-WK-ofq"/>
+                        <outlet property="stateLabel" destination="fSL-91-JJx" id="Tii-M7-Hee"/>
                         <outlet property="stopButton" destination="igt-ml-V61" id="FeP-Sd-qgc"/>
                         <outlet property="switchButton" destination="oTb-mS-dsX" id="6S0-6b-l0d"/>
                     </connections>

@@ -92,6 +92,8 @@
         avHTTPTask.delegate = self;
         [avHTTPTask start];
         [self.httpTaskQueue addObject:avHTTPTask];
+    } else {
+        NSLog(@"lalala");
     }
 }
 
@@ -149,6 +151,7 @@
 }
 
 #pragma mark - private method
+
 - (void)continueNextPendingRequest{
     if (self.httpTaskQueue.count) {
         [self.httpTaskQueue.lastObject start];

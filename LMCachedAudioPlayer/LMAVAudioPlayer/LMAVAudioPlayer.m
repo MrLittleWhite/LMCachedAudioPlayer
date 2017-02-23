@@ -43,6 +43,7 @@
 @property (nonatomic, assign, readwrite) NSTimeInterval loadedTime;
 
 @property (nonatomic, assign) BOOL isAddObserve;
+@property (nonatomic, assign) BOOL isSeeking;
 
 @end
 
@@ -105,7 +106,16 @@
                 [self.audioPlayer pause];
                 [self.audioPlayer play];
             }
-            self.state = LMAVAudioPlayerStatePlay;
+            if (self.isSeeking) {
+                if(self.audioPlayer.rate != 0.0
+                   && YES) {
+                    self.isSeeking = NO;
+                    self.state = LMAVAudioPlayerStatePlay;
+                }
+            } else {
+                self.state = LMAVAudioPlayerStatePlay;
+            }
+        
         } else {
             self.state = LMAVAudioPlayerStateLoading;
         }
@@ -114,12 +124,25 @@
 
 - (void)playFromOffsetTime:(NSTimeInterval)offsetTime {
     __weak typeof (self) weakSelf = self;
-    self.state = LMAVAudioPlayerStateLoading;
-    [self.audioPlayer seekToTime:CMTimeMake(offsetTime, 1) completionHandler:^(BOOL finished) {
+    [self.audioPlayer.currentItem cancelPendingSeeks];
+    [self.audioPlayer.currentItem seekToTime:CMTimeMake(offsetTime, 1) completionHandler:^(BOOL finished) {
+//        if (finished && [weakSelf canPlayWithoutLoading]) {
+//            [weakSelf.audioPlayer play];
+//            weakSelf.state = LMAVAudioPlayerStatePlay;
+//        }
+//        self.isSeeking = NO;
+//        [weakSelf.audioPlayer play];
         if (finished) {
-            weakSelf.state = LMAVAudioPlayerStatePlay;
+//            NSLog(@"kkk");
+            [weakSelf play];
+            [weakSelf startTryPlayIfBufferLongEnough];
         }
+//        [weakSelf.audioPlayer play];
+//        [weakSelf.audioPlayer pause];
     }];
+    self.state = LMAVAudioPlayerStateLoading;
+    [self.audioPlayer pause];
+    self.isSeeking = YES;
 }
 
 - (void)pause {
@@ -195,6 +218,13 @@
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+#if DEBUG
+    [self debugLog];
+#endif
+    if (self.isSeeking) {
+        return;
+    }
+    
     if ([keyPath isEqualToString:@"status"]) {
         switch (self.audioPlayer.status) {
             case AVPlayerStatusUnknown:
@@ -226,7 +256,7 @@
                 self.state = LMAVAudioPlayerStateLoading;
             }
         } else {
-            if (self.state == LMAVAudioPlayerStateLoading) {
+            if (self.state == LMAVAudioPlayerStateLoading && self.audioPlayer.currentItem.isPlaybackLikelyToKeepUp) {
                 self.state = LMAVAudioPlayerStatePlay;
             }
         }
@@ -239,10 +269,6 @@
 }
 
 #pragma mark - setter & getter
-
-- (BOOL)isPlaying{
-    return self.audioPlayer.rate > 0;
-}
 
 - (BOOL)canPlayWithoutLoading{
     return self.audioPlayer.status == AVPlayerStatusReadyToPlay &&
@@ -260,6 +286,8 @@
         }
         if (state == LMAVAudioPlayerStatePlay) {
             self.audioPlayer.muted = NO;
+        } else {
+            self.audioPlayer.muted = YES;
         }
     }
 }
@@ -277,7 +305,20 @@
 }
 
 - (NSTimeInterval)loadedTime{
-    CMTimeRange timeRange = self.audioPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
+    
+    NSValue *tempTimeRangeValue = nil;
+    for (NSValue *timeRangeValue in self.audioPlayer.currentItem.loadedTimeRanges) {
+        if (CMTimeRangeContainsTime(timeRangeValue.CMTimeRangeValue,
+                                    self.audioPlayer.currentItem.currentTime)) {
+            tempTimeRangeValue = timeRangeValue;
+        }
+    }
+    
+    if (!tempTimeRangeValue) {
+        return CMTimeGetSeconds(self.audioPlayer.currentItem.currentTime);
+    }
+    
+    CMTimeRange timeRange = tempTimeRangeValue.CMTimeRangeValue;
     Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
     Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
     NSTimeInterval result = startSeconds + durationSeconds;
@@ -304,6 +345,39 @@
 - (void)stopTryPlay{
     [self.tryPlayTimer invalidate];
     self.tryPlayTimer = nil;
+}
+
+#pragma mark - debug 
+
+- (void)debugLog{
+    switch (self.audioPlayer.currentItem.status) {
+        case AVPlayerStatusUnknown:
+            NSLog(@"avPlayer item status:AVPlayerStatusUnknown");
+            break;
+        case AVPlayerStatusReadyToPlay:
+            NSLog(@"avPlayer item status:AVPlayerStatusReadyToPlay");
+            break;
+        case AVPlayerStatusFailed:
+            NSLog(@"avPlayer item status:AVPlayerStatusFailed");
+            break;
+        default:
+            break;
+    }
+    switch (self.audioPlayer.status) {
+        case AVPlayerStatusUnknown:
+            NSLog(@"avPlayer status:AVPlayerStatusUnknown");
+            break;
+        case AVPlayerStatusReadyToPlay:
+            NSLog(@"avPlayer status:AVPlayerStatusReadyToPlay");
+            break;
+        case AVPlayerStatusFailed:
+            NSLog(@"avPlayer status:AVPlayerStatusFailed");
+            break;
+        default:
+            break;
+    }
+    NSLog(@"avPlayer playbackLikelyToKeepUp:%@",@(self.audioPlayer.currentItem.playbackLikelyToKeepUp));
+    NSLog(@"avPlayer rate:%@",@(self.audioPlayer.rate));
 }
 
 @end

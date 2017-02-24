@@ -69,8 +69,8 @@
 
 #pragma mark - private method
 - (void)initPlayer {
-    NSURL *url = [NSURL URLWithString:self.config.urlStr];
     if (self.config.isHTTPUrl) {
+        NSURL *url = [NSURL URLWithString:self.config.urlStr];
         self.dataSource = [[LMAVHTTPDataSource alloc] init];
         self.dataSource.originalScheme = url.scheme;
         AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[url customURLWithScheme:@"streaming"]
@@ -80,6 +80,7 @@
         AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
         self.audioPlayer = [[AVPlayer alloc] initWithPlayerItem:playItem];
     } else {
+        NSURL *url  = [NSURL fileURLWithPath:self.config.urlStr];
         self.audioPlayer = [[AVPlayer alloc] initWithURL:url];
     }
     [self addObserverForPlayItem:self.audioPlayer.currentItem];

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "509611905.616708"
+            timestampString = "509616431.724576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "-addObserverForPlayItem:"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,12 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "509613451.882903"
+            timestampString = "509616431.724576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "-initPlayer"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "-removeObserverForPlayItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -68,12 +68,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "509613737.963955"
+            timestampString = "509616431.724576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "-removeObserverForPlayItem:"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "-initPlayer"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

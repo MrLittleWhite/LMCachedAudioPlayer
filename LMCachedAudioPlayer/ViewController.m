@@ -98,6 +98,7 @@
         LMAVAudioPlayerState state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         switch (state) {
             case LMAVAudioPlayerStatePause:
+                self.playButton.selected = NO;
                 self.stateLabel.text = @"暂停";
                 self.stateLabel.textColor = [UIColor blackColor];
                 break;

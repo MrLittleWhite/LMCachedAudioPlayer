@@ -24,15 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    LMAVAudioPlayerConfig *config = [[LMAVAudioPlayerConfig alloc] init];
-    config.urlStr = @"http://kting.info/asdb/fiction/chuanyue/yx/xhc9fsoy.mp3";
-    LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
-    self.audioPlayer = avPlayer;
-    
-    [self.audioPlayer addObserver:self
-                       forKeyPath:@"state"
-                          options:NSKeyValueObservingOptionNew
-                          context:NULL];
+    [self setupPlayer];
     
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTimerHandler:) userInfo:nil repeats:YES];
     
@@ -46,6 +38,45 @@
     [self.seekSlider addTarget:self
                         action:@selector(seekForSlider:)
               forControlEvents:UIControlEventValueChanged];
+    
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ab"]) {
+        self.switchButton.on = YES;
+    }
+    [self.switchButton addTarget:self action:@selector(switchButtonDidSwitch:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)switchButtonDidSwitch:(UISwitch *)aSwitch {
+    if (aSwitch.isOn) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(1) forKey:@"ab"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"ab"];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setupPlayer];
+}
+
+- (void)setupPlayer{
+    if (self.audioPlayer) {
+        [self.audioPlayer pause];
+        [self.audioPlayer removeObserver:self forKeyPath:@"state"];
+        self.audioPlayer = nil;
+    }
+    
+    LMAVAudioPlayerConfig *config = [[LMAVAudioPlayerConfig alloc] init];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ab"]) {
+        NSString *localUrl = [[NSBundle mainBundle] pathForResource:@"sourthLady" ofType:@"mp3"];
+        config.urlStr = localUrl;
+    } else {
+        config.urlStr = @"http://kting.info/asdb/fiction/chuanyue/yx/xhc9fsoy.mp3";
+    }
+    LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
+    self.audioPlayer = avPlayer;
+    
+    [self.audioPlayer addObserver:self
+                       forKeyPath:@"state"
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
 }
 
 - (void)playOrPause:(UIButton *)btn{
@@ -101,14 +132,16 @@
 }
 
 - (void)updateTimerHandler:(NSTimer *)timer {
-    self.durationLabel.text = [NSString stringWithFormat:@"Duration:%@",@(self.audioPlayer.duration)];
-    self.currentTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.currentTime)];
-    self.loadedTimeLabel.text = [NSString stringWithFormat:@"LoadedTime:%@",@(self.audioPlayer.loadedTime)];
+    if (self.audioPlayer) {
+        self.durationLabel.text = [NSString stringWithFormat:@"Duration:%@",@(self.audioPlayer.duration)];
+        self.currentTimeLabel.text = [NSString stringWithFormat:@"CurrentTime:%@",@(self.audioPlayer.currentTime)];
+        self.loadedTimeLabel.text = [NSString stringWithFormat:@"LoadedTime:%@",@(self.audioPlayer.loadedTime)];
+    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [self.audioPlayer removeObserver:self forKeyPath:@"state"];
-//    self.audioPlayer = nil;
+    [self.audioPlayer removeObserver:self forKeyPath:@"state"];
+    self.audioPlayer = nil;
 }
 
 - (void)didReceiveMemoryWarning {

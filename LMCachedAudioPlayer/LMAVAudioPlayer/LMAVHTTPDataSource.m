@@ -19,7 +19,9 @@
 
 //@property (nonatomic, strong) AVAssetResourceLoadingRequest *currentAssetRequest;
 
-@property (nonatomic, assign) long long feedDataOffset;
+@property (nonatomic, assign, readwrite) BOOL isFinishLoad;
+
+//@property (nonatomic, assign) long long feedDataOffset;
 @property (nonatomic, assign) long long totalDataLength;
 
 @property (nonatomic, strong) Reachability *networkReachability;
@@ -54,7 +56,8 @@
 #pragma mark - public LoadingRequest
 
 - (BOOL)isFinishLoad{
-    return self.feedDataOffset == self.totalDataLength && self.totalDataLength > 0;
+    return self.httpTaskQueue.count <= 0;
+//    return self.feedDataOffset == self.totalDataLength && self.totalDataLength > 0;
 }
 
 - (void)startCache {
@@ -113,9 +116,9 @@
         loadingRequest.contentInformationRequest.contentType = [httpResponse.allHeaderFields objectForKey:@"Content-Type"];
         NSString * contentRange = [[httpResponse allHeaderFields] objectForKey:@"Content-Range"];
         NSString * totalLength = [[contentRange componentsSeparatedByString:@"/"] lastObject];
-        if (self.feedDataOffset == 0) {
-            self.feedDataOffset = loadingRequest.dataRequest.requestedOffset;
-        }
+//        if (self.feedDataOffset == 0) {
+//            self.feedDataOffset = loadingRequest.dataRequest.requestedOffset;
+//        }
         self.totalDataLength = totalLength.longLongValue;
         loadingRequest.contentInformationRequest.contentLength = totalLength.longLongValue;
     }
@@ -128,14 +131,17 @@
 }
 
 - (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didReceiveData:(NSData *)data forLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
-    self.feedDataOffset += data.length;
+//    self.feedDataOffset += data.length;
     [loadingRequest.dataRequest respondWithData:data];
 }
 
 - (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didFinishTaskForLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest error:(NSError *)error{
-    if (self.feedDataOffset != self.totalDataLength) {
-        self.feedDataOffset = 0;
-    }
+//    if (self.feedDataOffset == self.totalDataLength && self.totalDataLength > 0) {
+//        self.isFinishLoad = YES;
+//    }
+//    if (self.feedDataOffset != self.totalDataLength) {
+//        self.feedDataOffset = 0;
+//    }
     if (error && !self.networkReachability.isReachable) {
         self.errorAssetRequest = loadingRequest;
         [avHTTPTask stop];

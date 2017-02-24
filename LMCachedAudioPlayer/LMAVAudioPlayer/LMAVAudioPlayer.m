@@ -21,7 +21,7 @@
 
 - (void)setUrlStr:(NSString *)urlStr{
     _urlStr = urlStr;
-    self.isHTTPUrl = ![urlStr rangeOfString:@"file://"].length;
+    self.isHTTPUrl = !([urlStr rangeOfString:@"file://"].length || [urlStr rangeOfString:@"Bundle"].length);
 }
 
 @end
@@ -200,7 +200,7 @@
 }
 
 - (void)handlePlayItemDidPlayToEnd:(NSNotification *)noti{
-    if (self.dataSource.isFinishLoad) {
+    if (self.currentTime >= MAX(self.duration-1, 0)) {
         self.state = LMAVAudioPlayerStateEnd;
     } else if (self.state == LMAVAudioPlayerStatePlay){
         self.state = LMAVAudioPlayerStateLoading;
@@ -315,7 +315,8 @@
     }
     
     if (!tempTimeRangeValue) {
-        return CMTimeGetSeconds(self.audioPlayer.currentItem.currentTime);
+        NSTimeInterval result = CMTimeGetSeconds(self.audioPlayer.currentItem.currentTime);
+        return isnan(result)?0:result;
     }
     
     CMTimeRange timeRange = tempTimeRangeValue.CMTimeRangeValue;

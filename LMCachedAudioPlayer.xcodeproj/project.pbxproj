@@ -248,7 +248,7 @@
 		8DF187051DE1ADB000D1B41E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "lazy-iOS2";
 				TargetAttributes = {
 					8DF1870C1DE1ADB000D1B41E = {

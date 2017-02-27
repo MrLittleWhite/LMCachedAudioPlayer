@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.summary      = 'LMAVAudioPlayer is based on AVPlayer using AVAssetResourceLoader.'
 
  s.description  = <<-DESC
-                     This version, http file and local file can play.
+                     This version, http file and local file can be played by LMAVAudioPlayer. Play http file using AVAssetResourceLoader & local file do not use AVAssetResourceLoader.
                    DESC
 
   s.homepage     = 'https://github.com/MrLittleWhite/LMCachedAudioPlayer'

@@ -11,7 +11,7 @@
 
 @interface LMAudioDecryptor : NSObject
 
-+ (NSData *)decryptData:(NSData *)data
+- (NSData *)decryptData:(NSData *)data
                 withKey:(NSString *)key
                      iv:(NSString *)iv;
 

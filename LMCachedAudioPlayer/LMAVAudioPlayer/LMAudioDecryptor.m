@@ -11,9 +11,13 @@
 
 @implementation LMAudioDecryptor
 
-+ (NSData *)decryptData:(NSData *)data
+- (NSData *)decryptData:(NSData *)data
                 withKey:(NSString *)key
                      iv:(NSString *)iv{
+    
+    if (key.length <= 0 || iv.length <= 0) {
+        return data;
+    }
     
     UInt8 *decryptedBuff = calloc(data.length,1);
     size_t decryptedLength = 0;

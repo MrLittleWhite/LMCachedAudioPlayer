@@ -10,10 +10,10 @@
 		8D49CC3F1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D49CC3E1DF6BB5B008C7BE6 /* NSURL+LMAVAudioPlayer.m */; };
 		8D8ACD461E5D2EB400969499 /* LMAudioDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8ACD451E5D2EB400969499 /* LMAudioDecryptor.m */; };
 		8D8ACD481E5FE1C800969499 /* sourthLady.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8D8ACD471E5FE1C800969499 /* sourthLady.mp3 */; };
+		8D9667541E65261D005647A2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9667531E65261D005647A2 /* Reachability.m */; };
 		8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */; };
 		8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */; };
 		8DB112141E472062006C16C4 /* NSTimer+EOCBlocksSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */; };
-		8DB112191E486292006C16C4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB112181E486292006C16C4 /* Reachability.m */; };
 		8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */; };
 		8DF187121DE1ADB000D1B41E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187111DE1ADB000D1B41E /* main.m */; };
 		8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF187141DE1ADB000D1B41E /* AppDelegate.m */; };
@@ -48,14 +48,14 @@
 		8D8ACD441E5D2EB400969499 /* LMAudioDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAudioDecryptor.h; sourceTree = "<group>"; };
 		8D8ACD451E5D2EB400969499 /* LMAudioDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAudioDecryptor.m; sourceTree = "<group>"; };
 		8D8ACD471E5FE1C800969499 /* sourthLady.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sourthLady.mp3; sourceTree = "<group>"; };
+		8D9667521E65261D005647A2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		8D9667531E65261D005647A2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		8D9E541E1DE29544003E0B6F /* LMAVAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVAudioPlayer.h; sourceTree = "<group>"; };
 		8D9E541F1DE29544003E0B6F /* LMAVAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVAudioPlayer.m; sourceTree = "<group>"; };
 		8D9E54211DE29623003E0B6F /* LMAVHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPDataSource.h; sourceTree = "<group>"; };
 		8D9E54221DE29623003E0B6F /* LMAVHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPDataSource.m; sourceTree = "<group>"; };
 		8DB112121E472062006C16C4 /* NSTimer+EOCBlocksSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+EOCBlocksSupport.h"; sourceTree = "<group>"; };
 		8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+EOCBlocksSupport.m"; sourceTree = "<group>"; };
-		8DB112171E486292006C16C4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		8DB112181E486292006C16C4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		8DBD17961DF573EB002BBF58 /* LMAVHTTPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMAVHTTPTask.h; sourceTree = "<group>"; };
 		8DBD17971DF573EB002BBF58 /* LMAVHTTPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMAVHTTPTask.m; sourceTree = "<group>"; };
 		8DF1870D1DE1ADB000D1B41E /* LMCachedAudioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LMCachedAudioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,8 +116,6 @@
 				8DB112131E472062006C16C4 /* NSTimer+EOCBlocksSupport.m */,
 				8D8ACD441E5D2EB400969499 /* LMAudioDecryptor.h */,
 				8D8ACD451E5D2EB400969499 /* LMAudioDecryptor.m */,
-				8DB112171E486292006C16C4 /* Reachability.h */,
-				8DB112181E486292006C16C4 /* Reachability.m */,
 			);
 			path = LMAVAudioPlayer;
 			sourceTree = "<group>";
@@ -163,6 +161,8 @@
 		8DF187101DE1ADB000D1B41E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8D9667521E65261D005647A2 /* Reachability.h */,
+				8D9667531E65261D005647A2 /* Reachability.m */,
 				8DF187111DE1ADB000D1B41E /* main.m */,
 			);
 			name = "Supporting Files";
@@ -325,11 +325,11 @@
 				8DBD17981DF573EB002BBF58 /* LMAVHTTPTask.m in Sources */,
 				8D8ACD461E5D2EB400969499 /* LMAudioDecryptor.m in Sources */,
 				8D9E54231DE29623003E0B6F /* LMAVHTTPDataSource.m in Sources */,
+				8D9667541E65261D005647A2 /* Reachability.m in Sources */,
 				8DF187181DE1ADB000D1B41E /* ViewController.m in Sources */,
 				8DB112141E472062006C16C4 /* NSTimer+EOCBlocksSupport.m in Sources */,
 				8DF187151DE1ADB000D1B41E /* AppDelegate.m in Sources */,
 				8DF187121DE1ADB000D1B41E /* main.m in Sources */,
-				8DB112191E486292006C16C4 /* Reachability.m in Sources */,
 				8D9E54201DE29544003E0B6F /* LMAVAudioPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

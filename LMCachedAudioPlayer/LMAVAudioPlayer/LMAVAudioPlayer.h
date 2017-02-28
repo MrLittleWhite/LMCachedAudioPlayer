@@ -40,6 +40,8 @@ typedef NS_ENUM(NSUInteger, LMAVAudioPlayerState) {
 
 - (instancetype)initWithConfig:(LMAVAudioPlayerConfig *)config;
 
+@property (nonatomic, assign) BOOL muted;
+
 @property (nonatomic, assign, readonly) LMAVAudioPlayerState state;
 
 @property (nonatomic, strong, readonly) NSError *error;

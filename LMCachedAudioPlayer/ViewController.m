@@ -141,8 +141,8 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.audioPlayer removeObserver:self forKeyPath:@"state"];
-    self.audioPlayer = nil;
+//    [self.audioPlayer removeObserver:self forKeyPath:@"state"];
+//    self.audioPlayer = nil;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -88,6 +88,13 @@
 
 #pragma mark - public method
 
+- (void)setMuted:(BOOL)muted{
+    if (_muted != muted) {
+        _muted = muted;
+        self.audioPlayer.muted = muted;
+    }
+}
+
 - (void)preload{
     if (!self.audioPlayer) {
         [self initPlayer];

@@ -21,7 +21,7 @@
 
 - (void)setUrlStr:(NSString *)urlStr{
     _urlStr = urlStr;
-    self.isHTTPUrl = !([urlStr rangeOfString:@"file://"].length || [urlStr rangeOfString:@"Bundle"].length);
+    self.isHTTPUrl = [urlStr rangeOfString:@"http://"].length > 0;
 }
 
 @end
@@ -80,7 +80,12 @@
         AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
         self.audioPlayer = [[AVPlayer alloc] initWithPlayerItem:playItem];
     } else {
-        NSURL *url  = [NSURL fileURLWithPath:self.config.urlStr isDirectory:NO];
+        NSURL *url = nil;
+        if ([self.config.urlStr rangeOfString:@"file://"].length) {
+            url = [NSURL URLWithString:self.config.urlStr];
+        } else {
+            url  = [NSURL fileURLWithPath:self.config.urlStr isDirectory:NO];
+        }
         self.audioPlayer = [[AVPlayer alloc] initWithURL:url];
     }
     [self addObserverForPlayItem:self.audioPlayer.currentItem];

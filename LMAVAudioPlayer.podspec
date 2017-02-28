@@ -3,7 +3,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'LMAVAudioPlayer'
-  s.version      = '0.0.1'
+  s.version      = '0.0.2'
   s.summary      = 'LMAVAudioPlayer is based on AVPlayer using AVAssetResourceLoader.'
 
  s.description  = <<-DESC
@@ -20,11 +20,12 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '7.0'
 
-  s.source       = { :git => 'https://github.com/MrLittleWhite/LMCachedAudioPlayer.git', :tag => 'v0.0.1' }
+  s.source       = { :git => 'https://github.com/MrLittleWhite/LMCachedAudioPlayer.git', :tag => 'v0.0.2' }
 
   s.source_files  = 'LMAVAudioPlayer', 'LMCachedAudioPlayer/LMAVAudioPlayer/**/*'
   
   s.framework  = 'AVFoundation'
+  s.dependency 'Reachability'
 
   s.requires_arc = true
 end

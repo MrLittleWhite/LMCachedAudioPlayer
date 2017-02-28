@@ -80,7 +80,7 @@
         AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
         self.audioPlayer = [[AVPlayer alloc] initWithPlayerItem:playItem];
     } else {
-        NSURL *url  = [NSURL fileURLWithPath:self.config.urlStr];
+        NSURL *url  = [NSURL fileURLWithPath:self.config.urlStr isDirectory:NO];
         self.audioPlayer = [[AVPlayer alloc] initWithURL:url];
     }
     [self addObserverForPlayItem:self.audioPlayer.currentItem];

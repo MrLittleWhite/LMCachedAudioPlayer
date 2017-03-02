@@ -239,7 +239,7 @@
     }
     
     if ([keyPath isEqualToString:@"status"]) {
-        switch (self.audioPlayer.status) {
+        switch (self.audioPlayer.currentItem.status) {
             case AVPlayerStatusUnknown:
                 break;
             case AVPlayerStatusReadyToPlay:
@@ -248,7 +248,7 @@
                 }
                 break;
             case AVPlayerStatusFailed:
-                self.error = self.audioPlayer.error;
+                self.error = self.audioPlayer.currentItem.error;
                 self.state = LMAVAudioPlayerStateError;
                 break;
             default:

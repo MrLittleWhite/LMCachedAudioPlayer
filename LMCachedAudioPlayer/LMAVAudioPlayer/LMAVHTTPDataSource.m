@@ -113,6 +113,7 @@
 - (void)lmAVHTTPTask:(LMAVHTTPTask *)avHTTPTask didReceiveResponse:(NSURLResponse *)response forLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest{
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSAssert(httpResponse.statusCode == 206, @"error");
         loadingRequest.contentInformationRequest.contentType = [httpResponse.allHeaderFields objectForKey:@"Content-Type"];
         NSString * contentRange = [[httpResponse allHeaderFields] objectForKey:@"Content-Range"];
         NSString * totalLength = [[contentRange componentsSeparatedByString:@"/"] lastObject];

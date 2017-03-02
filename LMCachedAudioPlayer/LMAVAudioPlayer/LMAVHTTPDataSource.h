@@ -16,6 +16,9 @@
 
 @property (nonatomic, strong, readonly) NSError *error;
 
+@property (nonatomic, copy) NSString *aesDecryptKey;
+@property (nonatomic, copy) NSString *aesDecryptIV;
+
 - (void)startCache;
 - (void)pauseCache;
 

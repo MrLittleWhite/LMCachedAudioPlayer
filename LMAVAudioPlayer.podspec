@@ -1,5 +1,4 @@
 
-
 Pod::Spec.new do |s|
 
   s.name         = 'LMAVAudioPlayer'
@@ -14,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.license      = 'MIT'
 
-  s.author             = { 'MrLittleWhite' => 'luffy243077002@163.com' }
+  s.author       = { 'MrLittleWhite' => 'luffy243077002@163.com' }
 
   s.platform     = :ios, '7.0'
 
@@ -22,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => 'https://github.com/MrLittleWhite/LMCachedAudioPlayer.git', :tag => 'v0.0.5' }
 
-  s.source_files  = 'LMAVAudioPlayer', 'LMCachedAudioPlayer/LMAVAudioPlayer/**/*'
+  s.source_files = 'LMAVAudioPlayer', 'LMCachedAudioPlayer/LMAVAudioPlayer/**/*'
   
   s.framework  = 'AVFoundation'
   s.dependency 'Reachability'

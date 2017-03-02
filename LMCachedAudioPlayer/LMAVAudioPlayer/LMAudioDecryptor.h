@@ -11,8 +11,13 @@
 
 @interface LMAudioDecryptor : NSObject
 
-- (NSData *)decryptData:(NSData *)data
-                withKey:(NSString *)key
-                     iv:(NSString *)iv;
+- (instancetype)initWithRange:(NSRange)range
+                contentLength:(UInt64)length
+                      withKey:(NSString *)key
+                           iv:(NSString *)iv;
+
+@property (nonatomic, assign, readonly) NSRange requireRange;
+
+- (NSData *)decryptData:(NSData *)data;
 
 @end

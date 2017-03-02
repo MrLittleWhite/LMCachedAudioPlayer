@@ -8,10 +8,13 @@
 
 #import "LMAVHTTPTask.h"
 #import "NSURL+LMAVAudioPlayer.h"
+#import "LMAudioDecryptor.h"
 
 @interface LMAVHTTPTask ()<NSURLSessionDelegate>
 
 @property (nonatomic, strong, readwrite) AVAssetResourceLoadingRequest *loadingRequest;
+
+@property (nonatomic, strong) LMAudioDecryptor *decryptor;
 
 @property (nonatomic, strong) NSURLSession *taskSesstion;
 
@@ -26,7 +29,7 @@
 - (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
     if (self = [super init]) {
         self.loadingRequest = loadingRequest;
-        
+//        self.decryptor = [LMAudioDecryptor alloc] initWithRange:<#(NSRange)#> contentLength:<#(UInt64)#> withKey:<#(NSString *)#> iv:<#(NSString *)#>
     }
     return self;
 }

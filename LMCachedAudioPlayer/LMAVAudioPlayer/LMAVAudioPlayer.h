@@ -25,6 +25,9 @@
 
 @property (nonatomic, assign, readonly) BOOL isHTTPUrl;
 
+@property (nonatomic, copy) NSString *aesDecryptKey;
+@property (nonatomic, copy) NSString *aesDecryptIV;
+
 @end
 
 typedef NS_ENUM(NSUInteger, LMAVAudioPlayerState) {

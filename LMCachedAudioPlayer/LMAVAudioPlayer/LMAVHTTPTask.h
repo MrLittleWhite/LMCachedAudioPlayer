@@ -21,6 +21,9 @@
 
 @property (nonatomic, strong, readonly) AVAssetResourceLoadingRequest *loadingRequest;
 
+@property (nonatomic, copy) NSString *aesDecryptKey;
+@property (nonatomic, copy) NSString *aesDecryptIV;
+
 - (void)start;
 
 - (void)pause;

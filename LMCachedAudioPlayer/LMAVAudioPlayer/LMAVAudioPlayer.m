@@ -73,7 +73,10 @@
         NSURL *url = [NSURL URLWithString:self.config.urlStr];
         
         self.dataSource = [[LMAVHTTPDataSource alloc] init];
+
         self.dataSource.urlStr = self.config.urlStr;
+        self.dataSource.aesDecryptKey = self.config.aesDecryptKey;
+        self.dataSource.aesDecryptIV = self.config.aesDecryptIV;
         
         NSURL *asstURL = [url customURLWithScheme:@"streaming"];
         

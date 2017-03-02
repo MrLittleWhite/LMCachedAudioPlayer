@@ -71,13 +71,26 @@
 - (void)initPlayer {
     if (self.config.isHTTPUrl) {
         NSURL *url = [NSURL URLWithString:self.config.urlStr];
+        
         self.dataSource = [[LMAVHTTPDataSource alloc] init];
-        self.dataSource.originalScheme = url.scheme;
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[url customURLWithScheme:@"streaming"]
+        self.dataSource.urlStr = self.config.urlStr;
+        
+        NSURL *asstURL = [url customURLWithScheme:@"streaming"];
+        
+        NSRange rangeOfHttp = [asstURL.absoluteString rangeOfString:@"http://"];
+        if (rangeOfHttp.length) {
+            NSString *assetURLStr = [asstURL.absoluteString substringFromIndex:rangeOfHttp.location];
+            asstURL = [[NSURL URLWithString:assetURLStr] customURLWithScheme:@"streaming"];
+        }
+        
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:asstURL
                                                 options:nil];
+        
         [asset.resourceLoader setDelegate:self.dataSource
                                     queue:dispatch_get_main_queue()];
+        
         AVPlayerItem *playItem = [AVPlayerItem playerItemWithAsset:asset];
+        
         self.audioPlayer = [[AVPlayer alloc] initWithPlayerItem:playItem];
     } else {
         NSURL *url = nil;
@@ -284,7 +297,7 @@
 #pragma mark - setter & getter
 
 - (BOOL)canPlayWithoutLoading{
-    return self.audioPlayer.status == AVPlayerStatusReadyToPlay &&
+    return self.audioPlayer.currentItem.status == AVPlayerStatusReadyToPlay &&
            ((self.loadedTime - self.currentTime) >= 6
            || self.dataSource.isFinishLoad);
 }

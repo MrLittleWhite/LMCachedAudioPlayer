@@ -46,7 +46,7 @@
         long long requestEnd = requestedOffset+requestedLength-1;
         
         
-        NSURL *url = [self.loadingRequest.request.URL customURLWithScheme:self.oringalScheme];
+        NSURL *url = [NSURL URLWithString:self.urlStr];
         NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
         [request addValue:[NSString stringWithFormat:@"bytes=%lld-%lld", requestedOffset+self.feededDataOffset, requestEnd] forHTTPHeaderField:@"Range"];
         _dataTask = [self.taskSesstion dataTaskWithRequest:request];

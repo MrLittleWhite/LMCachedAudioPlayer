@@ -10,7 +10,7 @@
 
 @interface LMAVHTTPDataSource : NSObject<AVAssetResourceLoaderDelegate>
 
-@property (nonatomic, copy)  NSString *originalScheme;
+@property (nonatomic, copy)  NSString *urlStr;
 
 @property (nonatomic, assign, readonly) BOOL isFinishLoad;
 

@@ -91,7 +91,7 @@
         self.errorAssetRequest = nil;
         [self pauseAllTask];
         LMAVHTTPTask *avHTTPTask = [[LMAVHTTPTask alloc] initWithLoadingRequest:loadingRequest];
-        avHTTPTask.oringalScheme = self.originalScheme;
+        avHTTPTask.urlStr = self.urlStr;
         avHTTPTask.delegate = self;
         [avHTTPTask start];
         [self.httpTaskQueue addObject:avHTTPTask];

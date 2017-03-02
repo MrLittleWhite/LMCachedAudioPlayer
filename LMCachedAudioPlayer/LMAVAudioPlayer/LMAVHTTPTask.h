@@ -15,7 +15,7 @@
 
 - (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest;
 
-@property (nonatomic, copy) NSString *oringalScheme;
+@property (nonatomic, copy)  NSString *urlStr;
 
 @property (nonatomic, weak) id<LMAVHTTPTaskDelegate> delegate;
 

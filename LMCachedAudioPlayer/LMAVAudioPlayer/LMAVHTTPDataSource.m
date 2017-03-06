@@ -85,12 +85,15 @@
 - (void)processLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
     if (![self.pendingRequestQueue containsObject:loadingRequest]) {
 #ifdef DEBUG
-        NSLog(@"requestQueue: %@",@(self.pendingRequestQueue.count));
+//        NSLog(@"requestQueue: %@",@(self.pendingRequestQueue.count));
 #endif
         [self.pendingRequestQueue addObject:loadingRequest];
         self.errorAssetRequest = nil;
         [self pauseAllTask];
-        LMAVHTTPTask *avHTTPTask = [[LMAVHTTPTask alloc] initWithLoadingRequest:loadingRequest];
+        LMAVHTTPTask *avHTTPTask = [[LMAVHTTPTask alloc] initWithLoadingRequest:loadingRequest
+                                                                  aesDecryptKey:self.aesDecryptKey
+                                                                   aesDecryptIV:self.aesDecryptIV
+                                                                  contentLength:self.totalDataLength];
         avHTTPTask.urlStr = self.urlStr;
         avHTTPTask.delegate = self;
         [avHTTPTask start];

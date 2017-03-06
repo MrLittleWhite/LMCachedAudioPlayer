@@ -69,11 +69,16 @@
         config.urlStr = localUrl;
     } else {
 //        config.urlStr = @"http://kting.info/asdb/fiction/chuanyue/yx/xhc9fsoy.mp3";
-        config.urlStr = @"http://wting.info/fiction/wenxue/sanguoyy/b9ysoipi.mp3";
-        //        config.aesDecryptKey = @"k90er4hli2hk2sgn";
-        //        config.aesDecryptIV = @"78afc8512559b62f";
+//        config.urlStr = @"http://wting.info/fiction/wenxue/sanguoyy/b9ysoipi.mp3";
+        config.aesDecryptKey = @"k90er4hli2hk2sgn";
+        config.aesDecryptIV = @"78afc8512559b62f";
 //                config.urlStr = @"http://lazyaudio.gzproxy.10155.com:8070/?xyz=3000004823:1488358650:3d996ca368acd055e12f1b214490868c&url=http://wting.info/fiction/wenxue/sanguoyy/b9ysoipi.mp3";
+        config.urlStr = @"http://xmtvip.wting.info/crypt/aes/500K.mp3";
 //        config.urlStr = @"http://xmtvip.wting.info/crypt/aes/3.5M.mp3";
+        config.urlStr = @"http://xmtvip.wting.info/crypt/aes/12M.mp3";
+        config.urlStr = @"http://xmtvip.wting.info/crypt/aes/404K.mp3";
+        config.urlStr = @"http://xmtvip.wting.info/crypt/aes/100K.mp3";
+//        config.urlStr = @"http://xmtvip.wting.info/plain/100K.mp3";
     }
     LMAVAudioPlayer *avPlayer = [[LMAVAudioPlayer alloc] initWithConfig:config];
     self.audioPlayer = avPlayer;

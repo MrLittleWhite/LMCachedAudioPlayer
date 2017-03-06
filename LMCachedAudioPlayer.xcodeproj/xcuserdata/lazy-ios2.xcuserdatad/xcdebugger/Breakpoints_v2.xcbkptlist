@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "510051547.513451"
+            timestampString = "510144423.232272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
-            landmarkName = "-addObserverForPlayItem:"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "-pauseAudioAndLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,61 +35,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "510051547.513451"
+            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVHTTPDataSource.m"
+            timestampString = "510198114.425525"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-preload"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "-processLoadingRequest:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "510051547.513451"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "-play"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "510051547.513451"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "-play"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVHTTPDataSource.m"
-            timestampString = "509974573.093641"
+            timestampString = "510396851.380932"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-dealloc"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "-lmAVHTTPTask:didReceiveResponse:forLoadingRequest:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,13 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVHTTPDataSource.m"
-            timestampString = "509974575.522599"
+            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAudioDecryptor.m"
+            timestampString = "510484241.550238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-init"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "-decryptData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAVAudioPlayer.m"
-            timestampString = "510051547.513451"
+            filePath = "LMCachedAudioPlayer/LMAVAudioPlayer/LMAudioDecryptor.m"
+            timestampString = "510485333.86512"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "-initPlayer"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-decryptData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -13,16 +13,16 @@
 
 @interface LMAVHTTPTask : NSObject
 
-- (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest;
+- (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest
+                         aesDecryptKey:(NSString *)aesDecryptKey
+                          aesDecryptIV:(NSString *)aesDecryptIV
+                         contentLength:(long long)contentLength;
 
 @property (nonatomic, copy)  NSString *urlStr;
 
 @property (nonatomic, weak) id<LMAVHTTPTaskDelegate> delegate;
 
 @property (nonatomic, strong, readonly) AVAssetResourceLoadingRequest *loadingRequest;
-
-@property (nonatomic, copy) NSString *aesDecryptKey;
-@property (nonatomic, copy) NSString *aesDecryptIV;
 
 - (void)start;
 

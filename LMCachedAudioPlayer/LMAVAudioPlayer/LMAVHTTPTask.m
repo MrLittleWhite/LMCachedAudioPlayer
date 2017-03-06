@@ -22,14 +22,32 @@
 
 @property (nonatomic, assign) long long feededDataOffset;
 
+@property (nonatomic, assign) long long contentLength;
+
+@property (nonatomic, copy) NSString *aesDecryptKey;
+@property (nonatomic, copy) NSString *aesDecryptIV;
+
 @end
 
 @implementation LMAVHTTPTask
 
-- (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+- (instancetype)initWithLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest
+                         aesDecryptKey:(NSString *)aesDecryptKey
+                          aesDecryptIV:(NSString *)aesDecryptIV
+                         contentLength:(long long)contentLength{
     if (self = [super init]) {
         self.loadingRequest = loadingRequest;
-//        self.decryptor = [LMAudioDecryptor alloc] initWithRange:<#(NSRange)#> contentLength:<#(UInt64)#> withKey:<#(NSString *)#> iv:<#(NSString *)#>
+        self.aesDecryptKey = aesDecryptKey;
+        self.aesDecryptIV = aesDecryptIV;
+        self.contentLength = contentLength;
+        NSUInteger requestedOffset = (NSUInteger)self.loadingRequest.dataRequest.requestedOffset;
+        NSUInteger requestedLength = (NSUInteger)self.loadingRequest.dataRequest.requestedLength;
+
+        self.decryptor = [[LMAudioDecryptor alloc]
+                          initWithRange:NSMakeRange(requestedOffset, requestedLength)
+                          contentLength:self.contentLength
+                                withKey:self.aesDecryptKey
+                                     iv:self.aesDecryptIV];
     }
     return self;
 }
@@ -43,9 +61,9 @@
 #pragma mark - setter & getter
 - (NSURLSessionDataTask *)dataTask {
     if (!_dataTask) {
-        long long requestedOffset = self.loadingRequest.dataRequest.requestedOffset;
+        long long requestedOffset = self.decryptor.requireRange.location;//self.loadingRequest.dataRequest.requestedOffset;
         //    long long currentOffset = loadingRequest.dataRequest.currentOffset;
-        long long requestedLength = self.loadingRequest.dataRequest.requestedLength;
+        long long requestedLength = self.decryptor.requireRange.length;//self.loadingRequest.dataRequest.requestedLength;
         long long requestEnd = requestedOffset+requestedLength-1;
         
         
@@ -77,11 +95,41 @@
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
-    if ([self.delegate respondsToSelector:@selector(lmAVHTTPTask:didReceiveData:forLoadingRequest:)]) {
-        [self.delegate lmAVHTTPTask:self
-                     didReceiveData:data
-                  forLoadingRequest:self.loadingRequest];
+    NSData *decryptedData = [self.decryptor decryptData:data];
+    if (decryptedData.length) {
+        
+#if DEBUG
+//        NSString *decryptedString = [self convertDataToHexStr:decryptedData];
+//        NSLog(@"%@",decryptedString);
+#endif
+        
+        if ([self.delegate respondsToSelector:@selector(lmAVHTTPTask:didReceiveData:forLoadingRequest:)]) {
+            [self.delegate lmAVHTTPTask:self
+                         didReceiveData:decryptedData
+                      forLoadingRequest:self.loadingRequest];
+        }
     }
+}
+
+- (NSString *)convertDataToHexStr:(NSData *)data
+{
+    if (!data || [data length] == 0) {
+        return @"";
+    }
+    NSMutableString *string = [[NSMutableString alloc] initWithCapacity:[data length]];
+    
+    [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+        unsigned char *dataBytes = (unsigned char*)bytes;
+        for (NSInteger i = 0; i < byteRange.length; i++) {
+            NSString *hexStr = [NSString stringWithFormat:@"%x", (dataBytes[i]) & 0xff];
+            if ([hexStr length] == 2) {
+                [string appendString:hexStr];
+            } else {
+                [string appendFormat:@"0%@", hexStr];
+            }
+        }
+    }];
+    return string;
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{

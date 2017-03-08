@@ -45,6 +45,8 @@
 @property (nonatomic, assign) BOOL isAddObserve;
 @property (nonatomic, assign) BOOL isSeeking;
 
+@property (nonatomic, assign) BOOL isFirstPlay;
+
 @end
 
 @implementation LMAVAudioPlayer
@@ -60,6 +62,7 @@
 
 - (instancetype)initWithConfig:(LMAVAudioPlayerConfig *)config{
     if (self = [super init]) {
+        self.isFirstPlay = YES;
         self.config = config;
         NSAssert(self.config.urlStr.length,@"");
 //        [self initPlayer];
@@ -142,9 +145,14 @@
                     self.state = LMAVAudioPlayerStatePlay;
                 }
             } else {
-                self.state = LMAVAudioPlayerStatePlay;
+                if (self.isFirstPlay) {
+                    if (self.audioPlayer.currentItem.isPlaybackLikelyToKeepUp) {
+                        self.state = LMAVAudioPlayerStatePlay;
+                    }
+                } else {
+                    self.state = LMAVAudioPlayerStatePlay;
+                }
             }
-        
         } else {
             self.state = LMAVAudioPlayerStateLoading;
         }
@@ -204,7 +212,7 @@
     
     //缓存可以播放的时候调用
     [playerItem addObserver:self
-                 forKeyPath:@"playbackLikelyToKeepUp"
+                 forKeyPath:@"isPlaybackLikelyToKeepUp"
                     options:NSKeyValueObservingOptionNew
                     context:nil];
     
@@ -270,7 +278,7 @@
             default:
                 break;
         }
-    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]){
+    } else if ([keyPath isEqualToString:@"isPlaybackLikelyToKeepUp"]){
         BOOL isLikelyKeepUp = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
         if (isLikelyKeepUp && self.state == LMAVAudioPlayerStateLoading) {
 //            [self.audioPlayer play];
@@ -314,6 +322,7 @@
             [self stopTryPlay];
         }
         if (state == LMAVAudioPlayerStatePlay) {
+            self.isFirstPlay = NO;
             self.audioPlayer.muted = NO;
         } else {
             self.audioPlayer.muted = YES;
@@ -406,7 +415,7 @@
         default:
             break;
     }
-    NSLog(@"avPlayer playbackLikelyToKeepUp:%@",@(self.audioPlayer.currentItem.playbackLikelyToKeepUp));
+    NSLog(@"avPlayer isPlaybackLikelyToKeepUp:%@",@(self.audioPlayer.currentItem.isPlaybackLikelyToKeepUp));
     NSLog(@"avPlayer rate:%@",@(self.audioPlayer.rate));
 }
 

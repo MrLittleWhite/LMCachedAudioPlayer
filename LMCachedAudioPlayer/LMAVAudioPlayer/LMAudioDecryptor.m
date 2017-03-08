@@ -9,11 +9,7 @@
 #import "LMAudioDecryptor.h"
 #include <CommonCrypto/CommonCryptor.h>
 
-#ifdef DEBUG
-#define SLog(format, ...) printf("class: <%p %s:(%d) > method: %s \n%s\n", self, [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __PRETTY_FUNCTION__, [[NSString stringWithFormat:(format), ##__VA_ARGS__] UTF8String] )
-#else
-#define SLog(format, ...)
-#endif
+#define DecryptUnit (8*1024)
 
 @interface LMAudioDecryptor ()
 
@@ -48,13 +44,13 @@
         } else{
             self.contentLength = length;
             
-            self.remainLength = (16-range.length%16)%16;
+            self.remainLength = (DecryptUnit-range.length%DecryptUnit)%DecryptUnit;
             
             NSRange tempRange = range;
             if (self.contentLength > 0) {
                 if (self.remainLength > 0) {
                     if (tempRange.location + tempRange.length + self.remainLength > self.contentLength) {
-                        self.remainLength = self.contentLength-(tempRange.location+tempRange.length);
+                        self.remainLength = (NSUInteger)(self.contentLength-(tempRange.location+tempRange.length));
                     }
                     tempRange.length += self.remainLength;
                 }
@@ -73,8 +69,6 @@
 
 - (NSData *)decryptData:(NSData *)data{
     
-//    NSString *deString = [self convertDataToHexStr:data];
-    
     if (self.key.length <= 0 || self.iv.length <= 0) {
         return data;
     }
@@ -89,7 +83,7 @@
     
     NSMutableData *tempData = [self.leftData mutableCopy];
     
-    NSInteger multipleTimes = tempData.length/16;
+    NSInteger multipleTimes = tempData.length/DecryptUnit;
     
     NSUInteger supplyBuffSize = 0;
     
@@ -99,30 +93,34 @@
         if (self.decryptedLength < self.requireRange.length) {
             return nil;
         } else {
-            supplyBuffSize = (16-tempData.length)%16;
+            supplyBuffSize = (DecryptUnit-tempData.length)%DecryptUnit;
             [tempData increaseLengthBy:supplyBuffSize];
             [self.leftData setData:[NSData data]];
             isNeedMinusRemainLength = YES;
         }
     } else {
         if (self.decryptedLength < self.requireRange.length) {
-            NSUInteger decryptlength = multipleTimes*16;
-            NSData *needDecryptData = [tempData subdataWithRange:NSMakeRange(0, decryptlength)];
-            tempData = [NSMutableData dataWithData:needDecryptData];
-            [self.leftData replaceBytesInRange:NSMakeRange(0, decryptlength)
-                                     withBytes:NULL
-                                        length:0];
-        } else {
+            if (tempData.length >= DecryptUnit) {
+                NSUInteger decryptlength = multipleTimes*DecryptUnit;
+                NSData *needDecryptData = [tempData subdataWithRange:NSMakeRange(0, decryptlength)];
+                tempData = [NSMutableData dataWithData:needDecryptData];
+                [self.leftData replaceBytesInRange:NSMakeRange(0, decryptlength)
+                                         withBytes:NULL
+                                            length:0];
+            } else {
+                return nil;
+            }
+        }  else {
             [self.leftData setData:[NSData data]];
             
             NSData *finalDecryptData = nil;
-            NSUInteger finalLeftDataLength = tempData.length%16;
-            NSUInteger supplyDataLength = (16-finalLeftDataLength)%16;
+            NSUInteger finalLeftDataLength = tempData.length%DecryptUnit;
+            NSUInteger supplyDataLength = (DecryptUnit-finalLeftDataLength)%DecryptUnit;
             if (finalLeftDataLength > 0) {
                 NSMutableData *tempDecryptedData = [NSMutableData data];
-                NSUInteger leftDataTimes = tempData.length/16;
+                NSUInteger leftDataTimes = tempData.length/DecryptUnit;
                 if (leftDataTimes > 0) {
-                    NSUInteger toDecryptLength = leftDataTimes*16;
+                    NSUInteger toDecryptLength = leftDataTimes*DecryptUnit;
                     NSRange toDecryptRange = NSMakeRange(0,toDecryptLength);
                     NSMutableData *toDecryptData = [NSMutableData dataWithData:[tempData subdataWithRange:toDecryptRange]];
                     [tempData replaceBytesInRange:toDecryptRange withBytes:NULL length:0];
@@ -130,7 +128,8 @@
                     NSLog(@"");
                 }
                 [tempData increaseLengthBy:supplyDataLength];
-                [tempDecryptedData appendData:[self innerDecryptData:tempData]];
+                NSData *hehehe = [self innerDecryptData:tempData];
+                [tempDecryptedData appendData:hehehe];
                 finalDecryptData = [tempDecryptedData copy];
             } else {
                 finalDecryptData = [self innerDecryptData:tempData];
@@ -145,7 +144,7 @@
         
     }
     
-    NSAssert(self.leftData.length < 16, @"");
+    NSAssert(self.leftData.length < DecryptUnit, @"");
     
     
     NSData *realDecryptData = [tempData copy];
@@ -162,16 +161,16 @@
 }
 
 - (NSData *)innerDecryptData:(NSData *)data{
-    NSAssert((data.length%16) <= 0, @"解密的长度必须为16的长度的倍数");
+    NSAssert((data.length%DecryptUnit) <= 0, @"解密的长度必须为DecryptUnit的长度的倍数");
     
     char *decryptedBuff = calloc(data.length,sizeof(char));
     memset(decryptedBuff, 0, data.length);
-    size_t decryptedLength = 0;
+    size_t onceDecryptedLength = 0;
     
-    const char *decryptedKey = self.key.UTF8String;//calloc(self.key.length,sizeof(unichar));
+    const char *decryptedKey = self.key.UTF8String;
     size_t keyLength = self.key.length;
     
-    const char *decryptedIv = self.iv.UTF8String;//calloc(self.iv.length,sizeof(unichar));
+    const char *decryptedIv = self.iv.UTF8String;
     
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                                           kCCAlgorithmAES128,
@@ -183,12 +182,15 @@
                                           (size_t)data.length,
                                           decryptedBuff,
                                           (size_t)data.length,
-                                          &decryptedLength);
-    assert(cryptStatus == kCCSuccess && decryptedLength == (size_t)data.length);
+                                          &onceDecryptedLength);
+    assert(cryptStatus == kCCSuccess && onceDecryptedLength == (size_t)data.length);
     
     NSData *decryptedData = [NSData dataWithBytesNoCopy:decryptedBuff
-                                                 length:decryptedLength
+                                                 length:onceDecryptedLength
                                            freeWhenDone:YES];
+    NSString *aStr = [self convertDataToHexStr:decryptedData];
+    NSLog(@"%@",@(aStr.length));
+    
     return decryptedData;
 }
 
